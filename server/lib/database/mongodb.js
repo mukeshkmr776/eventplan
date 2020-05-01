@@ -1,7 +1,13 @@
 
 const mongoose = require('mongoose');
-const DBConfiguration = require('../../lib/config/db.config.json');
 const Schemas = require('./schemas');
+
+let DBConfiguration = {};
+if (process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase().includes('prod')) {
+    DBConfiguration = require('../../lib/config/db.config.prod.json');
+} else {
+    DBConfiguration = require('../../lib/config/db.config.dev.json')
+}
 
 module.exports = {
     'connect': async function (callback) {

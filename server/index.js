@@ -98,10 +98,14 @@ module.exports = {
             res.status(500).send('Something broke! ERROR: ' + (err && err.message ? err.message : ''));
         });
 
-        // Handle Routes unavailability: NOT WORKING PROPERLY
-        // app.use(function (req, res, next) {
-        //     res.status(404).send("What!");
-        // });
+        // Handle Routes unavailability or 404 Error on UI Refresh
+        app.use(function (req, res, next) {
+            if (req.originalUrl.startsWith('/home') || req.originalUrl.startsWith('/view') || req.originalUrl.startsWith('/edit')) {
+                res.sendFile(path.resolve(__dirname + '/../public/dist/index.html'));
+            } else {
+                res.status(404).send();
+            }
+        });
     },
 
 };
