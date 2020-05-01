@@ -1,0 +1,7 @@
+{
+    "MONGODB": {
+        "URI": "mongodb://localhost/sampledb",
+        "USERNAME": "",
+        "PASSWORD": ""
+    }
+}
