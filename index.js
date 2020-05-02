@@ -1,9 +1,14 @@
+const UtilityService = require('./server/lib/services/utilities.service');
 const mongoDB = require('./server/lib/database/mongodb');
 const server = require('./server/index');
 
 let serverInstance = null;
 let mongoDBInstance = null;
 
+const mode = UtilityService.isProd() ? 'prod' : 'dev';
+console.log(`########################################`);
+console.log(`#   Starting Application in ${mode} mode  #`);
+console.log(`########################################\n`);
 
 mongoDB.connect((error, _dbInstance) => {
     if (error) {
