@@ -61,7 +61,7 @@ module.exports = {
                 .find()
                 .select({ data: 0 }) // Removing data field from result
                 .skip(params.skip)
-                .limit(params.limit)
+                // .limit(params.limit)
                 .lean()
                 .exec((err, events) => {
                     if (err) {
@@ -72,6 +72,10 @@ module.exports = {
                     events = EventService.applyStatuses(events);
                     if (!!params.category) {
                         events = EventService.filterEventByCategory(params.category, events);
+                    }
+
+                    if (params.limit > 0) {
+                        events = events.slice(0, params.limit);
                     }
 
                     res.send(events);
