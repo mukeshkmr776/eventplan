@@ -1,0 +1,56 @@
+<div class="auth d-flex align-items-center flex-column justify-content-center">
+
+  <!-- Back To Dashboard -->
+  <div class="back-dashboard nav-link d-flex align-items-center pl-0" [routerLink]="['/home']">
+    <i class="material-icons">keyboard_backspace</i>
+    Back to dashboard
+  </div>
+
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+    <!-- Email Field -->
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"/>
+      <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+        <div *ngIf="f.username.errors.required">Email is required</div>
+      </div>
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+
+    <!-- Password Field -->
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+        <div *ngIf="f.password.errors.required">Password is required</div>
+      </div>
+    </div>
+
+    <!-- RememberMe -->
+    <div class="form-group form-check p-0">
+      <mat-checkbox [disableRipple]="true">Remember me</mat-checkbox>
+    </div>
+
+    <!-- Login button -->
+    <button class="btn btn-success w-100 d-flex align-items-center justify-content-center" type="submit" [disabled]="loading">
+      <app-gathering-data *ngIf="loading" [mode]="'light'" style="height: 24px; width: 40px;"></app-gathering-data>
+      <span *ngIf="!loading">Login</span>
+    </button>
+
+    <!-- Forgot Password -->
+    <a class="forgot-pass-link text-center nav-link" href="javascript: void(0);">Forgot password?</a>
+
+  </form>
+
+  <!-- Create an account -->
+  <form class="login-form mt-2 text-center">
+    Need account? <a class="text-decoration-none" href="javascript: void(0);">Create an account</a>
+  </form>
+
+  <div *ngIf="error" class="login-error alert alert-danger d-flex align-items-center" role="alert">
+    <div class="mr-auto">{{error}}</div>
+    <div>&nbsp;<span style="cursor: pointer;" aria-hidden="true" (click)="error = ''">&times;</span></div>
+  </div>
+
+</div>

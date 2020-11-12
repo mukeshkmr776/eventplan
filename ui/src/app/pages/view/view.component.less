@@ -1,0 +1,111 @@
+.position-sticky {
+  top: 25px;
+  z-index: 1;
+}
+
+.top-fix {
+  top: 0px;
+  padding-bottom: 20px;
+}
+
+mat-card {
+  min-height: 300px;
+}
+
+.material-icons-view, .material-icons-edit, .material-icons-delete {
+  font-size: 1.5em;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.material-icons-mood-bad {
+  cursor: default;
+}
+
+
+
+// //////////////////////////////
+.gradient-border {
+  --borderWidth: 3px;
+  background: #1D1F20;
+  position: relative;
+  border-radius: var(--borderWidth);
+}
+.gradient-border:after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--borderWidth));
+  left: calc(-1 * var(--borderWidth));
+  height: calc(100% + var(--borderWidth) * 2);
+  width: calc(100% + var(--borderWidth) * 2);
+  background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;
+  animation: animatedgradient 3s ease alternate infinite;
+  background-size: 300% 300%;
+}
+
+
+@keyframes animatedgradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+// /////////////////////////////
+
+.header-image {
+  min-width: 100px;
+  max-width: 100px;
+  min-height: 100px;
+  max-height: 100px;
+  border-radius: 100%;
+  background-color: whitesmoke;
+}
+
+.filter-box {
+  padding: 0 !important;
+  min-height: auto;
+  &-search {
+    padding: .7rem 1rem;
+  }
+  &-filters {
+    padding: 1rem;
+    cursor: pointer;
+    background-color: #f8f9fa;
+  }
+}
+
+.divider-list {
+  left: 20px !important;
+  right: 20px !important;
+  bottom: 0;
+  width: auto !important;
+}
+
+.badge {
+  margin-left: 5px;
+  font-weight: normal;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.custom-pill {
+  font-size: inherit;
+  font-weight: normal;
+  margin-right: .5em !important;
+}

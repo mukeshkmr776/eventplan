@@ -1,0 +1,8 @@
+{
+    "PORT": 8000,
+    "BASE_API_URL": "/api",
+    "DATA_FILES_PATH": "./data",
+    "ROUTES": [
+        { "apiPath": "/serverlist",  "dataFiles": "./lib/apis/serverlist/index"}
+    ]
+}

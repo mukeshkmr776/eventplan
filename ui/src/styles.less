@@ -1,0 +1,125 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import './app/shared/components/loader/loader.component.less';
+
+html, body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.login-page {
+  background-color: #343a40 !important;
+}
+
+fuse .loading {
+  background-color: #2D323D;
+}
+
+app-root, .top-level-router ~ * {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+.content-flex, .router-output, .router-outlet {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  width: 100%;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+// Overriding bootstrap's property to fix dropdown behing issue on sticky top
+.sticky-top {
+  z-index: 5 !important;
+}
+
+.overflow {
+  overflow: hidden;
+}
+
+input:focus {
+  outline: none;
+}
+
+// Default Scrollbar
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 20px;
+  opacity: .5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+* {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+
+// This will prevent scrollbar content to get bigger which prevents text-truncate not happening.
+.custom-tree-scrollbar .ng-scroll-content {
+  max-width: 350px;
+}
+
+// Customize - MaterialCard
+.example-card {
+  .mat-card-header-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1 1 auto!important;
+  }
+}
+
+// Customize - SnackBar
+.notification {
+  &-success {
+    background-color: #1d971d;
+    color: white;
+  }
+  &-info {
+    background-color: #34c6dd;
+    color: white;
+  }
+  &-error {
+    background-color: #ec3838;
+    color: white;
+  }
+}
+
+// To Apply Css on Color-Picker {
+.color {
+  &-menu {
+    .mat-menu-content {
+      padding: 2px !important;
+    }
+  }
+}
+
+// Event Content Body
+.eventcontentbody {
+  * {
+    font-family: "Helvetica Neue", sans-serif !important;
+  }
+}

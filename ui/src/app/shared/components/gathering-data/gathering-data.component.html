@@ -1,0 +1,14 @@
+
+<ng-template [ngIf]="mode === 'dark'">
+    <div class="cancel" *ngIf="showCancel" (click)="onCancelLoading()">&times;</div>
+    <svg class="gathering-data" viewBox="25 25 50 50">
+      <circle class="gathering-data__path gathering-data__path--dark"  cx="50" cy="50" r="20"></circle>
+    </svg>
+  </ng-template>
+
+  <ng-template [ngIf]="mode === 'light'">
+    <div class="cancel" *ngIf="showCancel" (click)="onCancelLoading()">&times;</div>
+    <svg class="gathering-data" viewBox="25 25 50 50">
+      <circle class="gathering-data__path gathering-data__path--light"  cx="50" cy="50" r="20"></circle>
+    </svg>
+  </ng-template>

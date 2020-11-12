@@ -1,0 +1,80 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <a class="navbar-brand d-flex align-items-center" [routerLink]="['/home']" routerLinkActive="router-link-active" >
+    <i class="material-icons material-icons-menu" tabindex="0" (keyup.space)="toggleTree()" (keyup.enter)="toggleTree()" (click)="toggleTree()">menu</i> &nbsp;&nbsp;
+    <div class="pl-2">One</div>.<div class="font-weight-light">Page</div>
+    <!-- <div class="font-weight-bolader">HA</div> -->
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav flex-fill ml-5 mat-typography">
+
+      <!-- <li class="nav-item" *ngFor="let value of headerOptions; let last = last;" [ngClass]="{'mr-auto': last}">
+        <a class="nav-link" [routerLink]="[value.url]" routerLinkActive="active">{{value.name}}</a>
+      </li> -->
+
+      <li class="nav-item d-flex align-items-center search-box flex-fill justify-content-end">
+        <input type="search" class="pl-auto search-box-input" title="Search" placeholder="Search" />
+        <div class="google">
+          <span class="powered">power</span>
+          <!-- <span class="g1">G</span>
+          <span class="o1">o</span>
+          <span class="o2">o</span>
+          <span class="g2">g</span>
+          <span class="l" >l</span>
+          <span class="e" >e</span> -->
+
+          <span class="g1">S</span>
+          <span class="o1">e</span>
+          <span class="o2">a</span>
+          <span class="g2">r</span>
+          <span class="l" >c</span>
+          <span class="e" >h</span>
+        </div>
+      </li>
+
+      <!-- <li class="nav-item">
+        <a class="nav-link d-flex align-items-center" href="javascript: void(0);">
+          <i class="material-icons" title="Frequently Asked Questions">question_answer</i>
+        </a>
+      </li> -->
+
+      <li class="nav-item">
+        <a class="nav-link d-flex align-items-center" (click)="openFAQ()" href="javascript: void(0);">
+          <i class="material-icons" title="Knowledge Center">help</i>
+        </a>
+      </li>
+
+      <li>
+        <a class="nav-link d-flex align-items-center alert-badge-item" href="javascript: void(0);" (click)="active = !active">
+          <i class="material-icons" title="{{active ? '9 Alerts': '0 Alerts'}}" [innerHtml]="active ? 'notifications': 'notifications_none'"> </i> &nbsp;&nbsp;
+          <span class="alert-badge" [ngClass]="{'alert-badge-active': active}">9</span>
+        </a>
+      </li>
+
+      <li class="d-flex align-items-center text-white nav-item dropdown menubar-login-details">
+        <a class="nav-link dropdown-toggle d-flex align-items-center active" data-toggle="dropdown" href="#">
+          <i class="material-icons">account_circle</i> &nbsp;&nbsp;
+          <span class="text-white text-lead">mukeshkmr776@gmail.com</span> &nbsp;&nbsp;
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item d-flex align-items-center" href="javascript: void(0);">
+            <i class="material-icons">settings</i> &nbsp;&nbsp;
+            <span>Settings</span>
+          </a>
+          <a class="dropdown-item d-flex align-items-center" (click)="openAbout()" href="javascript: void(0);">
+            <i class="material-icons">person</i> &nbsp;&nbsp;
+            <span>About</span>
+          </a>
+          <a class="dropdown-item d-flex align-items-center" [routerLink]="['/login']">
+            <i class="material-icons">exit_to_app</i> &nbsp;&nbsp;
+            <span>Logout</span>
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

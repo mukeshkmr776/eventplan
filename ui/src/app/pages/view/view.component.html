@@ -1,0 +1,178 @@
+
+<div class="position-sticky top-fix" style="background: #fafafa;">&nbsp;</div>
+
+<span *ngIf="isGathering; then gatheringBlock else viewBlock"></span>
+
+<ng-template #gatheringBlock>
+  <app-gathering-data style="margin: 100px auto; width: 50px; height: 50px;"></app-gathering-data>
+</ng-template>
+
+
+<ng-template #viewBlock>
+
+  <!-- To display single Event View -->
+  <div *ngIf="id !== null" class="container d-flex flex-row align-items-start">
+    <div class="mat-title d-flex align-items-center pb-2 pt-2 pr-2 position-sticky">
+      <i class="material-icons arrow_forward pr-1" matTooltip="{{!!returnUrl ? 'Back' : 'Back to Dashboard'}}" [routerLink]="[!!returnUrl ? returnUrl : '/home']">arrow_back</i>
+    </div>
+
+    <div class=" d-flex flex-column flex-fill align-items-start">
+      <div class="d-flex flex-row position-sticky w-100" [ngClass]="{'position-sticky': sanitizedData !== ''}" style="padding: 30px 45px 40px; color: white; border-radius: 8px 8px 0px 0px;"
+        [style.backgroundColor]="event.configuration.backgroundColor ? event.configuration.backgroundColor : '#1976d2'">
+        <img *ngIf="event.configuration.imageSrc" [src]="event.configuration.imageSrc" class="header-image mr-4" alt="...">
+        <div class="d-flex flex-column flex-fill"
+          [style.color]="event.configuration.textColor ? event.configuration.textColor : 'white'">
+          <div class="mat-display-2 font-weight-lighter mb-4" style="font-weight: 300;">{{!!event.name ? event.name : 'No name'}}</div>
+          <div class="test">{{!!event.description ? event.description : 'No description' }}</div>
+        </div>
+        <div clas="d-flex" *ngIf="authenticationService.currentUserValue?.role === ADMIN">
+          <i class="material-icons material-icons-edit pr-1 mr-1" matTooltip="Edit" [routerLink]="['/home/edit/', id]">edit</i>
+          <i class="material-icons material-icons-delete pr-1"    matTooltip="Delete" (click)="deleteEventDialog(id)">delete</i>
+        </div>
+      </div>
+
+      <mat-card class="w-100" style="padding: 30px 45px 40px; border-top-left-radius: 0; border-top-right-radius: 0;">
+        <mat-card-content [ngClass]='{"d-flex justify-content-center align-items-center": sanitizedData === ""}' [ngStyle]="{'height': sanitizedData === '' ? '200px' : 'initial'}">
+          <div class="d-flex flex-column align-items-center font-italic" *ngIf="sanitizedData === ''" >
+            <i class="material-icons material-icons-mood-bad arrow_forward pr-1">mood_bad</i>
+            No content
+          </div>
+          <div class="eventcontentbody" *ngIf="sanitizedData && sanitizedData !== ''" [innerHTML]="sanitizedData"></div>
+          <!-- Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card Simple card -->
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <!-- /To display single Event View -->
+
+
+  <!-- To display all events -->
+  <div *ngIf="id === null" class="container d-flex flex-column">
+
+    <div class="mat-title d-flex align-items-center pb-2 pt-2 pr-2">
+      <i class="material-icons arrow_forward pr-1 mr-auto" matTooltip="Back to Dashboard" [routerLink]="['/home']">arrow_back</i>
+      <div class="d-flex align-items-center" *ngIf="authenticationService.currentUserValue?.role === ADMIN" >
+        <!-- <button mat-raised-button class="d-flex align-items-center mr-4" (click)="addAddEventDialog()">
+          <i class="material-icons">add</i>Event
+        </button> -->
+        <i class="material-icons material-icons-view" matTooltip="Add Event" (click)="addAddEventDialog()">add</i>
+        <i class="material-icons material-icons-view" matTooltip="Delete All" (click)="deleteAll()">delete</i>
+      </div>
+      <i class="material-icons material-icons-view" matTooltip="Refresh" (click)="refresh()">refresh</i>
+      &nbsp;&nbsp;
+      <div>
+        <mat-button-toggle-group #viewTypeGroup="matButtonToggleGroup" [value]="viewType">
+          <!-- <mat-button-toggle value="grid2" matTooltip="Grid"><mat-icon>apps</mat-icon></mat-button-toggle> -->
+          <mat-button-toggle value="grid" matTooltip="Grid"><mat-icon>view_comfy</mat-icon></mat-button-toggle>
+          <mat-button-toggle value="list" matTooltip="List"><mat-icon>list</mat-icon></mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      &nbsp;&nbsp;
+      <div>
+        <mat-button-toggle-group #sortGroup="matButtonToggleGroup">
+          <mat-button-toggle value="oldestfirst" matTooltip="Oldest first"><mat-icon>filter_list</mat-icon></mat-button-toggle>
+          <mat-button-toggle value="latestfirst" matTooltip="Latest first" class="rotate-180"><mat-icon class="">filter_list</mat-icon></mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center mb-5 position-sticky">
+      <mat-card class="filter-box d-flex align-items-center flex-fill flex-column">
+        <div class="filter-box-search d-flex flex-fill align-items-center w-100">
+          <i class="material-icons">search</i>
+          <input type="text" class="ml-3 w-100 border-0" [(ngModel)]="searchText" (keyup)="searchTerm$.next($event.target.value)" placeholder="Type to search..." style="height: 40px;"/>
+        </div>
+        <div class="filter-box-filters d-flex flex-fill align-items-center w-100" (click)="openFilterEventDialog()">
+          <i class="material-icons mr-3">add</i>
+          <span *ngFor="let item of filtersCategory" class="custom-pill badge badge-pill badge-primary mat-subheading-2 m-0">
+            {{item}}
+            <span class="p-1" aria-hidden="true" (click)="$event.stopPropagation();removeFilterCategory(item) ">&times;</span>
+          </span>
+          <span *ngIf="filtersCategory.length === 0">Filter by category</span>
+          <i class="material-icons ml-auto" *ngIf="filtersCategory.length !== 0" (click)="$event.stopPropagation(); resetFilterCategory()">close</i>
+        </div>
+      </mat-card>
+    </div>
+
+    <app-gathering-data *ngIf="isGatheringViewAll" style="margin: 100px auto; width: 50px; height: 50px;"></app-gathering-data>
+    <div class="d-flex flex-row justify-content-start flex-wrap" *ngIf="!isGatheringViewAll" [ngClass]="{'flex-row': viewTypeGroup.value === 'grid', 'flex-column': viewTypeGroup.value === 'list' }">
+
+      <!-- When Zero Events -->
+      <div *ngIf="allEvents && allEvents.length === 0 && searchText.length === 0" class="calendar-default-sprite calendar-default-sprite_finished_events m-auto text-center">
+        <span class="font-italic">Nothing here. Come back later</span>
+      </div>
+
+      <!-- Grid View -->
+      <ng-template [ngIf]="viewTypeGroup.value === 'grid'">
+        <mat-card *ngFor="let value of (allEvents | filter : searchText : 'name')" class="example-card d-flex flex-column mr-4 w-100" [@animate]="{value:'*',params:{y:'100%'}}" matRipple (click)="viewEvent(value._id)" >
+          <mat-card-header class="align-items-center mb-2">
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title class="mb-1 text-truncate" title='{{ !!value.name ? value.name : "No name" }}'>{{ !!value.name ? value.name : 'No name'}}</mat-card-title>
+            <mat-card-subtitle class="m-0 font-italic" title='{{ !!value.subtitle ? value.subtitle : "No subtitle" }}'>{{ !!value.subtitle ? value.subtitle : "No subtitle" }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content class="text-break mb-auto">
+            {{ !!value.description ? value.description : 'No description'}}
+            <div class="calendar-default-sprite calendar-default-sprite_finished_events"></div>
+          </mat-card-content>
+          <div class="mat-footer d-flex text-muted justify-content-end">Remaining 2 minutes</div>
+        </mat-card>
+        <!-- When nothing found in search -->
+        <div class="font-italic text-center w-100" *ngIf="searchText && searchText.length !== 0 && ((allEvents | filter : searchText : 'name').length === 0)">
+          <mat-card style="min-height: auto !important;">
+            <h2 class="m-0">Nothing found. What are you looking for? <br><span style="writing-mode: vertical-rl;">:\</span></h2>
+          </mat-card>
+        </div>
+      </ng-template>
+      <!-- / Grid View -->
+
+      <!-- List View -->
+      <ng-template [ngIf]="viewTypeGroup.value === 'list'">
+        <mat-card class="mb-4 d-flex align-items-center flex-column" style="min-height: auto !important;"
+          [@animate]="{value:'*',params:{y:'100%'}}"
+          *ngIf="searchText.length > 0 ? true : (allEvents.length > 0 ? true : false)"
+          >
+          <div class="test d-flex align-items-center flex-row w-100 pl-3" *ngFor="let value of (allEvents | filter : searchText : 'name'); let i = index" style="position: relative;">
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-list class="w-100 pt-2 pb-2">
+              <mat-list-item class="">
+                <!-- <mat-icon mat-list-icon>note</mat-icon> -->
+                <div mat-line>
+                  <span class="mr-1">{{value.name}}</span>
+                  <span *ngIf="value.status?.isLive" class="badge badge-danger" title="{{ value.expiresOnDate | date: 'medium' }}">LIVE</span>
+                  <span *ngIf="value.status?.isExpired" class="badge badge-light" title="{{ value.expiresOnDate | date: 'medium' }}">Expired</span>
+                  <span *ngIf="value.status?.isStartingSoon" class="badge badge-warning" title="{{ value.startsOnDate | date: 'medium' }}">Starting Soon</span>
+                  <span *ngIf="value.status?.isRecentlyAdded" class="badge badge-primary" title="{{ value.createdDate | date: 'medium' }}">Recently Added</span>
+                </div>
+                <div mat-line> {{value.subtitle}} </div>
+                <div class="d-flex align-items-center">
+                  <i class="material-icons material-icons-view pr-1" matTooltip="View" (click)="viewEvent(value._id)">launch</i> &nbsp;
+                  <i class="material-icons material-icons-edit pr-1"   *ngIf="authenticationService.currentUserValue?.role === ADMIN" matTooltip="Edit" [routerLink]="['/home/edit/', value._id]">edit</i> &nbsp;
+                  <i class="material-icons material-icons-delete pr-1" *ngIf="authenticationService.currentUserValue?.role === ADMIN" matTooltip="Delete" (click)="deleteEventDialog(value._id)">delete</i>
+                </div>
+              </mat-list-item>
+            </mat-list>
+            <mat-divider class="divider-list" *ngIf="(i + 1) !== allEvents.length"></mat-divider>
+          </div>
+          <!-- When nothing found in search -->
+          <div class="font-italic text-center w-100" *ngIf="searchText && searchText.length !== 0 && ((allEvents | filter : searchText : 'name').length === 0)">
+            <h2 class="m-0">Nothing found. What are you looking for? <br><span style="writing-mode: vertical-rl;">:\</span></h2>
+          </div>
+        </mat-card>
+      </ng-template>
+      <!-- / List View -->
+
+
+    </div>
+
+  </div>
+  <!-- / To display all events -->
+
+</ng-template>
+
+
+
+
+<div class="container pb-4 pt-0">
+  <mat-divider></mat-divider>
+  <app-copyright></app-copyright>
+</div>

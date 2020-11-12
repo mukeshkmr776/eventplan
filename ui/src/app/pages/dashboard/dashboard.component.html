@@ -1,0 +1,120 @@
+<!-- Just to create gap on top -->
+<div class="d-flex flex-fill flex-column align-items-center mt-4 mb-4"></div>
+
+
+<!-- WELCOME BAR -->
+<div class="container d-flex flex-column justify-content-between">
+  <div class="d-flex align-items-center">
+    <div class="welcome-bar mat-display-2 flex-fill mb-4">{{greetings}}</div>
+    <button mat-raised-button class="mr-4" *ngIf="authenticationService.currentUserValue" (click)="addAddEventDialog()">
+      <div class="d-flex align-items-center"><i class="material-icons">add</i>Event</div>
+    </button>
+    <div class="d-flex align-items-center">
+      <button mat-stroked-button class="mr-4" *ngIf="!authenticationService.currentUserValue" [routerLink]="['/login']">Login</button>
+      <button mat-raised-button [matMenuTriggerFor]="appMenu" *ngIf="authenticationService.currentUserValue" >
+        <i class="material-icons">face</i>
+        Hi, Mukesh!
+        <mat-menu #appMenu="matMenu" yPosition="above" xPosition="before">
+          <button mat-menu-item class="d-flex align-items-center"><i class="material-icons">settings</i> &nbsp;&nbsp;Settings &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+          <button mat-menu-item class="d-flex align-items-center" (click)="logout()"><i class="material-icons">exit_to_app</i> &nbsp;&nbsp;Logout &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+        </mat-menu>
+      </button>
+    </div>
+  </div>
+</div>
+<!-- / WELCOME BAR -->
+
+
+<!-- LIVE/Recommended Bar -->
+<div class="container d-flex flex-column justify-content-between">
+  <div class="mat-title d-flex align-items-center">
+    <div class="mat-title-tab active-red mr-auto ">LIVE</div>
+    <div class="mat-subheading-1 m-0 pr-1">See all</div>
+    <i class="material-icons arrow_forward" [routerLink]="['/home/view']" [queryParams]="{category: 'Live'}">arrow_forward</i>
+  </div>
+
+  <!-- Gathering -->
+  <app-gathering-data *ngIf="isGathering.LiveEvents" style="margin: 100px auto; width: 50px; height: 50px;"></app-gathering-data>
+
+  <div class="d-flex flex-row justify-content-start flex-wrap" *ngIf="!isGathering.LiveEvents">
+    <!-- When No Events -->
+    <div *ngIf="allEvents.liveEvents.length === 0" class="calendar-default-sprite calendar-default-sprite_finished_events m-auto text-center">
+      <span class="font-italic">Nothing here. Come back later</span>
+    </div>
+
+    <mat-card [@animate]="{value:'*',params:{y:'100%'}}" class="example-card d-flex flex-column mr-4" matRipple *ngFor="let value of (allEvents.liveEvents | slice:0:4)" [routerLink]="['/home/view/' + value._id]">
+      <mat-card-header class="align-items-center mb-2">
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title class="mb-1 text-truncate" title='{{ !!value.name ? value.name : "No name" }}'>{{ !!value.name ? value.name : 'No name'}}</mat-card-title>
+        <mat-card-subtitle class="m-0 font-italic" title='{{ !!value.subtitle ? value.subtitle : "No subtitle" }}'>{{ !!value.subtitle ? value.subtitle : "No subtitle" }}</mat-card-subtitle>
+      </mat-card-header>
+      <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+      <mat-card-content class="text-break mb-auto">
+        <!-- {{ !!value.description ? value.description : 'No description'}} -->
+        <div class="calendar-default-sprite calendar-default-sprite_finished_events"></div>
+      </mat-card-content>
+      <div class="mat-footer d-flex text-muted justify-content-end">Remaining 2 minutes</div>
+      <!-- <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions> -->
+    </mat-card>
+  </div>
+</div>
+<!-- / LIVE/Recommended Bar -->
+
+
+<div class="container">
+  <mat-divider ></mat-divider>
+</div>
+
+
+<!-- RECENTLYADDED/STARTINGSOON/EXPIRED -->
+<div class="container d-flex flex-column justify-content-between">
+  <div class="mat-title d-flex align-items-center">
+    <div class="mat-title-tab flex-filll" matRipple [ngClass]="{'active-blue'  : currentViewSection === viewSection.RECENTLYADDED }" (click)="changeViewSection(viewSection.RECENTLYADDED)">Recently Added</div>
+    <div class="mat-title-tab flex-filll" matRipple [ngClass]="{'active-orange': currentViewSection === viewSection.STARTINGSOON }" (click)="changeViewSection(viewSection.STARTINGSOON)">Starting Soon</div>
+    <div class="mat-title-tab flex-filll" matRipple [ngClass]="{'active-light' : currentViewSection === viewSection.EXPIRED }" (click)="changeViewSection(viewSection.EXPIRED)">Expired</div>
+    <div class="mr-auto"></div>
+    <div class="mat-subheading-1 m-0 pr-1">See all</div>
+    <i class="material-icons arrow_forward">arrow_forward</i>
+  </div>
+
+  <!-- Gathering -->
+  <app-gathering-data *ngIf="isGathering.SectionEvents" style="margin: 100px auto; width: 50px; height: 50px;"></app-gathering-data>
+
+  <div class="d-flex flex-row justify-content-start flex-wrap" *ngIf="!isGathering.SectionEvents">
+    <!-- When No Events -->
+    <div *ngIf="allEvents.sectionEvents.length === 0" class="calendar-default-sprite calendar-default-sprite_finished_events m-auto text-center">
+      <span class="font-italic">Nothing here. Come back later</span>
+    </div>
+
+    <mat-card [@animate]="{value:'*',params:{y:'100%'}}" class="example-card d-flex flex-column mr-4" matRipple *ngFor="let value of (allEvents.sectionEvents | slice:0:4)" [routerLink]="['/home/view/' + value._id]">
+      <mat-card-header class="align-items-center mb-2">
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title class="mb-1 text-truncate" title='{{ !!value.name ? value.name : "No name" }}'>{{ !!value.name ? value.name : 'No name'}}</mat-card-title>
+        <mat-card-subtitle class="m-0 font-italic" title='{{ !!value.subtitle ? value.subtitle : "No subtitle" }}'>{{ !!value.subtitle ? value.subtitle : "No subtitle" }}</mat-card-subtitle>
+      </mat-card-header>
+      <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+      <mat-card-content class="text-break mb-auto">
+        <!-- {{ !!value.description ? value.description : 'No description'}} -->
+        <div class="calendar-default-sprite calendar-default-sprite_finished_events"></div>
+      </mat-card-content>
+      <div class="mat-footer d-flex text-muted justify-content-end">Expired 8 hours ago</div>
+      <!-- <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions> -->
+    </mat-card>
+  </div>
+</div>
+<!-- / RECENTLYADDED/STARTINGSOON/EXPIRED -->
+
+
+<!-- FOOTER -->
+<div class="container">
+  <mat-divider ></mat-divider>
+  <app-copyright></app-copyright>
+</div>
+<!-- / FOOTER -->
+

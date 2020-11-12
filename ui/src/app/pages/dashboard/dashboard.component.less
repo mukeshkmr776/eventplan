@@ -1,0 +1,134 @@
+.box {
+  position: relative;
+  width: 100%;
+  max-width: 260px;
+  height: 250px;
+  padding: 10px 14px;
+  margin: 0 8px 10px 0;
+  border-radius: 2px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+
+
+  &:hover {
+    transform: translateY(-2px);
+    transition: all .3s;
+    box-shadow: 0 8px 8px rgba(1,67,163,.24), 0 0 8px rgba(1,67,163,.12), 0 6px 18px rgba(43,133,231,.12);
+  }
+
+  &.gathering {
+    border: 1.5px dashed lightgray;
+    margin: auto;
+    width: 250px;
+    height: 250px;
+  }
+
+  app-gathering-data {
+    width: 50px;
+    margin: auto;
+  }
+
+}
+
+
+// @--------------------------------------------------------------
+//  Mixin: Container
+// @--------------------------------------------------------------
+.container {
+  max-width: 1200px;
+  padding: 35px 0 25px;
+  .mat-title-tab {
+    color: gray;
+    line-height: 2;
+    margin-right: 20px;
+    font-size: 0.875em;
+    padding: 0 5px 0 2px;
+    cursor: pointer;
+    border-bottom: 3px solid #fafafa;
+    &.active {
+      &-orange {
+        color: black;
+        border-bottom: 3px solid orange;
+      }
+      &-blue {
+        color: black;
+        border-bottom: 3px solid blue;
+      }
+      &-light {
+        color: black;
+        border-bottom: 3px solid lightgray;
+      }
+      &-red {
+        color: black;
+        border-bottom: 3px solid red;
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) { .container { padding-left: 18px; padding-right: 18px; } }
+@media (max-width: 1000px) { .container { padding-left: 18px; padding-right: 18px; } }
+// @--------------------------------------------------------------
+
+
+
+// @--------------------------------------------------------------
+//  Mixin: Material Cards
+// @--------------------------------------------------------------
+.example-card {
+  // max-width: 280px;
+  margin: 0 0 15px 0;
+  width: 100%;
+  min-height: 250px;
+  transition: .1s ease-in-out;
+  cursor: pointer;
+  &:last-child{
+   margin-right: 0;
+  }
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+  &:hover, &:focus {
+    transform: scale(1.03);
+    transition: .1s ease-in-out;
+  }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) { .example-card { max-width: calc(50% - 20px); } }
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { .example-card { max-width: calc(33% - 20px); } }
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) { .example-card { max-width: calc(25% - 20px); } }
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) { .example-card { max-width: calc(25% - 25px); } }
+// @--------------------------------------------------------------
+
+
+.arrow_forward {
+  font-size: 34px;
+  cursor: pointer;
+}
+
+.welcome-bar {
+  font-weight: 300;
+}
+
+
+.calendar-default-sprite {
+  &::before {
+    position: relative;
+    display: block;
+    content: url(/assets/images_sprite.png);
+  }
+
+  &_finished_events::before {
+    width: 97px;
+    height: 140px;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+    margin: auto;
+  }
+}

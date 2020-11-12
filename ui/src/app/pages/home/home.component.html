@@ -1,0 +1,32 @@
+<!-- Testing -->
+<!-- <mat-toolbar class="example-header bg-dark" *ngIf="authenticationService.currentUserValue" >
+    <app-menu></app-menu>
+</mat-toolbar> -->
+
+<mat-sidenav-container class="example-container flex-fill">
+
+  <!-- Tree Panel -->
+  <mat-sidenav #sidenav class="example-sidenav" [mode]="sidenavMode" [fixedInViewport]="options.value.fixed" [fixedTopGap]="options.value.top" [fixedBottomGap]="options.value.bottom">
+    <!-- Start -->
+    <!-- <ng-scrollbar class="custom-tree-scrollbar"> -->
+      <div class="box">
+        <!-- Zone clusters -->
+        <div class="tree-header">Zone clusters ({{zones.length}})</div>
+        <!-- <app-tree *ngFor="let item of zones" [item]="item"></app-tree> -->
+
+        <!-- Unassigned clusters -->
+        <div class="tree-header">Unassigned clusters ({{clusters.length}})</div>
+        <!-- <app-tree *ngFor="let item of clusters" [item]="item" [isUnassigned]="true"></app-tree> -->
+      </div>
+    <!-- </ng-scrollbar> -->
+    <!-- End -->
+  </mat-sidenav>
+
+  <!-- Content -->
+  <mat-sidenav-content [formGroup]="options">
+    <!-- <ng-scrollbar> -->
+      <router-outlet></router-outlet>
+    <!-- </ng-scrollbar> -->
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
