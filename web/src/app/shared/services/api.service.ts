@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ApiService {
+  uploadAudioFile(data: FormData, options?) {
+    return this.http.post('api/upload', data).toPromise();
+  }
 
   constructor(private http: HttpClient) { }
 

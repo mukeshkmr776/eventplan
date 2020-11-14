@@ -1,0 +1,16 @@
+<div class="auth d-flex align-items-center flex-column justify-content-center">
+
+  <!-- Back To Dashboard -->
+  <div class="back-dashboard nav-link d-flex align-items-center pl-0" [routerLink]="['/home']">
+    <i class="material-icons">keyboard_backspace</i>
+    Back to dashboard
+  </div>
+
+
+  <form>
+    <input type="file" name="image" (change)="selectAudioFile($event)">
+    <br>
+    <button type="submit" (click)="onUploadAudioFile()">Upload</button>
+  </form>
+
+</div>

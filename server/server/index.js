@@ -7,15 +7,19 @@ const https = require('https');
 // @{ External Imports }
 const express = require('express');
 
-// @{ Middelwares }
+// Request Data Middelwares
 const cors = require('cors');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
 
+// Authentication/Authorization Middelwares
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
 // @{ ServerConfiguration }
-const ServerConfiguration = require('./lib/services/configuration.service').getConfiguration();
+const ServerConfiguration = require(path.join(__dirname, 'lib', 'config', 'server.config.json'));
 const BASE_API_URL = ServerConfiguration && ServerConfiguration.BASE_API_URL
                      ? ServerConfiguration.BASE_API_URL
                      : '/api';
@@ -25,29 +29,26 @@ module.exports = {
         const app = express();
         const PORT = process.env.PORT || ServerConfiguration.PORT || 3000;
 
-        try
-        {
-            this.registerInternalServices(app);
-            this.registerMiddlewares(app);
-            this.registerRoutes(app);
-            this.defineStaticResources(app);
-            this.registerAuthenticationMiddlewares(app);
-            this.miscellaneousTasks(app);
+        this.registerMiddlewares(app);
+        this.registerRoutes(app);
+        this.defineStaticResources(app);
+        this.registerAuthenticationMiddlewares(app);
+        this.miscellaneousTasks(app);
 
-            // Defining https server here.
-            const server = http.createServer(app);
-
-            server.listen(PORT, (err) => {
-                console.log(`Server started on port: http://localhost:${PORT}/  \n`);
-                if (typeof callback === 'function') {
-                    callback(err, server);
-                }
-            });
-        } catch (error) {
-            if (typeof callback === 'function') {
-                callback(error);
-            }
+        // Defining https server here.
+        var server = null;
+        if(!!ServerConfiguration.HTTPS) {
+            server = https.createServer(this.getHttpsCertificates(), app);
+        } else {
+            server = http.createServer(app);
         }
+
+        server.listen(PORT, (err) => {
+            console.log(`Server started on port: ${ !!ServerConfiguration.HTTPS ? 'https' : 'http'}://localhost:${PORT}/ \n`);
+            if (typeof callback === 'function') {
+                callback(err, server);
+            }
+        });
     },
 
     stopServer: function (instance, cb) {
@@ -74,15 +75,17 @@ module.exports = {
         app.use(cookieParser());
         app.use(compression());
         app.use(cors());
+
+        // For Authentication
+        app.use(passport.initialize());
+        app.use(passport.session());
     },
 
     registerRoutes: function (app) {
-        app.use(BASE_API_URL + '/serverlist'  , require('./lib/apis/serverlist')(express.Router()));
-        // app.use(BASE_API_URL + '/labasset'  , require('./lib/apis/LabAsset')(express.Router()));
-    },
-
-    registerInternalServices: function (app) {
-        require('./lib/services/storage.service');
+        app.use(BASE_API_URL + '/login'  , require('./lib/apis/login')(express.Router()));
+        app.use(BASE_API_URL + '/user'   , require('./lib/apis/user')(express.Router()));
+        app.use(BASE_API_URL + '/event'  , require('./lib/apis/event')(express.Router()));
+        app.use(BASE_API_URL + '/shared' , require('./lib/apis/shared')(express.Router()));
     },
 
     defineStaticResources: function (app) {
@@ -91,13 +94,17 @@ module.exports = {
     },
 
     registerAuthenticationMiddlewares: function (app) {
-        // ToDo
+        var User = require('./lib/database/mongodb-adapter/schemas').getSchema('User');
+        passport.use(new LocalStrategy(User.authenticate()));
+        passport.serializeUser(User.serializeUser());
+        passport.deserializeUser(User.deserializeUser());
     },
 
     miscellaneousTasks: function (app) {
         // Handle error in routes
         app.use((err, req, res, next) => {
             console.log(err);
+
             console.log('Something went wrong.',(err && err.message ? err.message : ''));
             res.status(500).send('Something broke! ERROR: ' + (err && err.message ? err.message : ''));
         });
@@ -112,6 +119,14 @@ module.exports = {
                 res.status(404).send();
             }
         });
+    },
+
+    getHttpsCertificates: function () {
+        return {
+            key: '',
+            cert: '',
+            ca: []
+          };
     }
 
 };
