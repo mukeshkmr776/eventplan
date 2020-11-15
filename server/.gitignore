@@ -1,5 +1,6 @@
 node_modules
 npm-debug*.log
 .temp
+public
 target
 package-lock.json
