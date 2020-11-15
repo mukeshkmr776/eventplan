@@ -8,7 +8,7 @@ export class MemoryService implements InMemoryDbService {
 
   createDb() {
     const events = [
-      { id: 10, name: 'Covid19', description: 'This is only valid for GUI Team', subtitle: 'GUI Team only', data: '', configuration: {backgroundColor: ''} },
+      { id: 10, name: 'EventPlan', description: 'This is only valid for GUI Team', subtitle: 'GUI Team only', data: '', configuration: {backgroundColor: ''} },
       { id: 50, name: 'Lockdown 2.0', description: '', data: '', configuration: {backgroundColor: 'orange'} },
       { id: 990, name: 'Happy Independence Day', description: '', data: '', configuration: {backgroundColor: 'green'} },
       { id: 81, name: 'real data', description: '', data: `

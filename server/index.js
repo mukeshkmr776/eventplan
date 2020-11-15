@@ -1,3 +1,6 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const mongoDB = require('./server/lib/database/mongodb-adapter');
 const server = require('./server/index');
 
