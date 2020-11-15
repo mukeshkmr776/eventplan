@@ -1,5 +1,12 @@
+const UtilityService = require('./server/lib/services/utilities.service');
+
 const dotenv = require('dotenv');
 dotenv.config();
+
+const mode = UtilityService.isProd() ? 'prod' : 'dev';
+console.log(`########################################`);
+console.log(`#   Starting Application in ${mode} mode  #`);
+console.log(`########################################\n`);
 
 const mongoDB = require('./server/lib/database/mongodb-adapter');
 const server = require('./server/index');

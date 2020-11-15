@@ -1,9 +1,10 @@
 
 const mongoose = require('mongoose');
 const Schemas = require('./schemas');
+const UtilityService = require('../../services/utilities.service');
 
 let DBConfiguration = {};
-if (process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase().includes('prod')) {
+if (UtilityService.isProd()) {
     if (process.env.MONGODB_URL && process.env.MONGODB_USERNAME && process.env.MONGODB_PASSWORD) {
         DBConfiguration = {
             "MONGODB": {
