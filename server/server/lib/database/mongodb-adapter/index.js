@@ -1,32 +1,20 @@
 
 const mongoose = require('mongoose');
 const Schemas = require('./schemas');
-const UtilityService = require('../../services/utilities.service');
 
-let DBConfiguration = {};
-if (UtilityService.isProd()) {
-    if (process.env.MONGODB_URL && process.env.MONGODB_USERNAME && process.env.MONGODB_PASSWORD) {
-        DBConfiguration = {
-            "MONGODB": {
-                "URI": process.env.MONGODB_URL,
-                "USERNAME": process.env.MONGODB_USERNAME,
-                "PASSWORD": process.env.MONGODB_PASSWORD
-            }
-        }
-    } else {
-        throw new Error('MongoDB Credentials not present.');
-    }
-} else {
-    DBConfiguration = require('../../config/db.config.dev.json');
-}
+const DBConfiguration = {
+    "MONGODB_URL": process.env.MONGODB_URL,
+    "MONGODB_USERNAME": process.env.MONGODB_USERNAME,
+    "MONGODB_PASSWORD": process.env.MONGODB_PASSWORD
+};
 
 module.exports = {
     'connect': async function (callback) {
-        console.log('MongoDB URI: ', DBConfiguration.MONGODB.URI);
+        console.log('MongoDB URI: ', DBConfiguration.MONGODB_URL);
         mongoose.Promise = global.Promise;
         try {
-            const _instance = await mongoose.connect(DBConfiguration.MONGODB.URI,{ useNewUrlParser: true, useUnifiedTopology: true });
-            console.log('Successfully connected to MongoDB using uri: ' + DBConfiguration.MONGODB.URI + '\n');
+            const _instance = await mongoose.connect(DBConfiguration.MONGODB_URL,{ useNewUrlParser: true, useUnifiedTopology: true });
+            console.log('Successfully connected to MongoDB using uri: ' + DBConfiguration.MONGODB_URL + '\n');
             Schemas.registerAllSchemas(mongoose);
             callback(null, _instance);
         } catch (error) {
