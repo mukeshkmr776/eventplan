@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Configuration = require('../../../lib/config/db.config.json');
+const Configuration = require('./../../../config/db.config.dev.json');
 
 console.log('MongoDB URI: ', Configuration.MONGODB.URI);
 mongoose.Promise = global.Promise;

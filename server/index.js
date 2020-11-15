@@ -1,5 +1,8 @@
 // @{ Internal Imports }
+const fs = require('fs');
 const path = require('path');
+const http = require('http');
+const https = require('https');
 
 // @{ External Imports }
 const express = require('express');
@@ -32,8 +35,16 @@ module.exports = {
         this.registerAuthenticationMiddlewares(app);
         this.miscellaneousTasks(app);
 
-        const server = app.listen(PORT, (err) => {
-            console.log('Server started on port: http://localhost:' + PORT + '/ \n');
+        // Defining https server here.
+        var server = null;
+        if(!!ServerConfiguration.HTTPS) {
+            server = https.createServer(this.getHttpsCertificates(), app);
+        } else {
+            server = http.createServer(app);
+        }
+
+        server.listen(PORT, (err) => {
+            console.log(`Server started on port: ${ !!ServerConfiguration.HTTPS ? 'https' : 'http'}://localhost:${PORT}/ \n`);
             if (typeof callback === 'function') {
                 callback(err, server);
             }
@@ -71,10 +82,10 @@ module.exports = {
     },
 
     registerRoutes: function (app) {
-        app.use(BASE_API_URL + '/login'  , require('./lib/routes/login')(express.Router()));
-        app.use(BASE_API_URL + '/user'   , require('./lib/routes/user')(express.Router()));
-        app.use(BASE_API_URL + '/event'  , require('./lib/routes/event')(express.Router()));
-        app.use(BASE_API_URL + '/shared' , require('./lib/routes/shared')(express.Router()));
+        app.use(BASE_API_URL + '/login'  , require('./lib/apis/login')(express.Router()));
+        app.use(BASE_API_URL + '/user'   , require('./lib/apis/user')(express.Router()));
+        app.use(BASE_API_URL + '/event'  , require('./lib/apis/event')(express.Router()));
+        app.use(BASE_API_URL + '/shared' , require('./lib/apis/shared')(express.Router()));
     },
 
     defineStaticResources: function (app) {
@@ -83,7 +94,7 @@ module.exports = {
     },
 
     registerAuthenticationMiddlewares: function (app) {
-        var User = require('./lib/database/schemas').getSchema('User');
+        var User = require('./lib/database/mongodb-adapter/schemas').getSchema('User');
         passport.use(new LocalStrategy(User.authenticate()));
         passport.serializeUser(User.serializeUser());
         passport.deserializeUser(User.deserializeUser());
@@ -100,6 +111,8 @@ module.exports = {
 
         // Handle Routes unavailability or 404 Error on UI Refresh
         app.use(function (req, res, next) {
+            console.log('What?????????????????');
+            console.log(req.originalUrl);
             if (req.originalUrl.startsWith('/home') || req.originalUrl.startsWith('/view') || req.originalUrl.startsWith('/edit')) {
                 res.sendFile(path.resolve(__dirname + '/../public/dist/index.html'));
             } else {
@@ -107,5 +120,13 @@ module.exports = {
             }
         });
     },
+
+    getHttpsCertificates: function () {
+        return {
+            key: '',
+            cert: '',
+            ca: []
+          };
+    }
 
 };

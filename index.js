@@ -1,14 +1,11 @@
-const UtilityService = require('./server/lib/services/utilities.service');
-const mongoDB = require('./server/lib/database/mongodb');
+const dotenv = require('dotenv');
+dotenv.config();
+
+const mongoDB = require('./server/lib/database/mongodb-adapter');
 const server = require('./server/index');
 
 let serverInstance = null;
 let mongoDBInstance = null;
-
-const mode = UtilityService.isProd() ? 'prod' : 'dev';
-console.log(`########################################`);
-console.log(`#   Starting Application in ${mode} mode  #`);
-console.log(`########################################\n`);
 
 mongoDB.connect((error, _dbInstance) => {
     if (error) {
@@ -27,17 +24,16 @@ mongoDB.connect((error, _dbInstance) => {
 });
 
 function stopApplication(code) {
-    console.log('Stopping server...');
     server.stopServer(serverInstance, () => {
         console.log('Successfully stopped server!');
         serverInstance = null;
     });
 
-    console.log('Stopping database...');
     mongoDB.disconnect(mongoDBInstance, () => {
         console.log('Successfully stopped database!')
         mongoDBInstance = null;
     });
+    process.exit(0)
 }
 
 // SIGINT - Application shutdown hook

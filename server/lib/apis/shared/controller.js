@@ -1,5 +1,5 @@
-let User = require('../../database/schemas').getSchema('User');
-let Event = require('../../database/schemas').getSchema('Event');
+let User = require('../../database/mongodb-adapter/schemas').getSchema('User');
+let Event = require('../../database/mongodb-adapter/schemas').getSchema('Event');
 
 module.exports = {
     'getCount': async function (req, res) {

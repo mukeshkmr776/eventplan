@@ -1,7 +1,0 @@
-{
-    "MONGODB": {
-        "URI": "mongodb+srv://mukki:mukki@testingcluster-ix11p.azure.mongodb.net/test?retryWrites=true&w=majority",
-        "USERNAME": "mukki",
-        "PASSWORD": "mukki"
-    }
-}

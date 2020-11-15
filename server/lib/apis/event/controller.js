@@ -1,7 +1,7 @@
-let Event = require('../../database/schemas').getSchema('Event');
-const EventService = require('./service');
+const { merge, omit } = require('lodash');
 
-const { merge } = require('lodash');
+let Event = require('../../database/mongodb-adapter/schemas').getSchema('Event');
+const EventService = require('./service');
 
 module.exports = {
 
@@ -33,7 +33,7 @@ module.exports = {
         const { id } = req.params;
         console.log('getEvent Params-', id);
         if (id) {
-            Event.findById({_id: String(id)}, (err, event) => {
+            Event.findById({_id: String(id)}).lean().exec((err, event) => {
                 if (err) {
                     console.log(err);
                     return res.status(500).send('Something went wrong: ' + err.message);
@@ -45,6 +45,7 @@ module.exports = {
                 }
 
                 event = EventService.applyStatuses([event]);
+
                 res.send(event[0]);
             });
         } else {

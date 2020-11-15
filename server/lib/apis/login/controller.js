@@ -1,6 +1,6 @@
-let User = require('../../database/schemas').getSchema('User');
-const UserService = require('./../user/service');
-const JwtService = require('./../../services/jwt.service');
+let User = require('../../database/mongodb-adapter/schemas').getSchema('User');
+const UserService = require('../user/service');
+const JwtService = require('../../services/jwt.service');
 
 module.exports = {
 
