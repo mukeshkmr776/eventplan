@@ -1,5 +1,5 @@
 let EventController = require('./controller');
-const JwtService = require('./../../services/jwt.service');
+const { JwtService } = require('./../../services');
 
 module.exports = function (router) {
 

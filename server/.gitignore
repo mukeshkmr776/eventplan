@@ -4,3 +4,4 @@ npm-debug*.log
 public
 target
 package-lock.json
+logs

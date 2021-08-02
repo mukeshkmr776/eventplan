@@ -1,6 +1,6 @@
-const { merge, omit } = require('lodash');
+const { merge } = require('lodash');
 
-let Event = require('../../database/mongodb-adapter/schemas').getSchema('Event');
+let Event = require('../../models').getSchema('Event');
 const EventService = require('./service');
 
 module.exports = {

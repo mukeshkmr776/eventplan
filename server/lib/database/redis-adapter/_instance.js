@@ -1,7 +1,7 @@
-const path = require("path");
-const { promisify } = require("util");
+const path = require('path');
+const { promisify } = require('util');
 
-const redis = require("redis");
+const redis = require('redis');
 const { v4: uuidv4} = require('uuid');
 
 let RedisConfiguration = null;

@@ -1,4 +1,4 @@
-let User = require('../../database/mongodb-adapter/schemas').getSchema('User');
+let User = require('../../models').getSchema('User');
 let service = require('./service');
 
 module.exports = {

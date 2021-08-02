@@ -50,8 +50,6 @@ module.exports = {
                     return date.toISOString();
                 }
             }
-
         }));
-
     }
 }

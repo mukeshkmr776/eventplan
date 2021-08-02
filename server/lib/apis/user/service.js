@@ -1,7 +1,8 @@
 const scmp = require('scmp');
 const crypto = require('crypto');
 
-const { NotFound, InvalidUsernameOrPassword, UserAlreadyExist, OldAndCurrentPasswordSame } = require('../../services/error.service').EXCEPTIONS;
+const { ErrorService } = require('./../../services');
+const { NotFound, InvalidUsernameOrPassword, UserAlreadyExist, OldAndCurrentPasswordSame } = ErrorService.EXCEPTIONS;
 
 var SERVICE = {
     registerUser: async function (User, profile) {
