@@ -1,6 +1,7 @@
 node_modules
 npm-debug*.log
 .temp
-.vscode
+public
 target
 package-lock.json
+logs
