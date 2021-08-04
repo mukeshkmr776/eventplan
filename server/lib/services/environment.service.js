@@ -43,7 +43,7 @@ module.exports = {
         if (ENV_VARIABLES !== null) {
             return;
         }
-        logger.info('Loading environment from locally: %s', envFilePath);
+        // logger.info('Loading environment from locally: %s', envFilePath);
         if (fs.existsSync(envFilePath)) {
             ENV_VARIABLES = dotenv.config({ path: envFilePath }).parsed ?? {};
         } else {
