@@ -14,11 +14,11 @@ module.exports = {
             this.stopApplication(1);
         }
     },
-    stopApplication: async function () {
+    stopApplication: async function (code = 0) {
         try {
             await server.stopServer();
             await database.stop();
-            process.exit(0)
+            process.exit(code)
         } catch (error) {
             process.exit(1);
         }
