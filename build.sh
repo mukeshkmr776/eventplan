@@ -4,8 +4,8 @@ set -e
 
 # UI Build
 cd web/
-# npm install
-# npm run build:prod
+npm install
+npm run build:prod
 cd ../
 # End
 
