@@ -1,8 +1,8 @@
 # Nodejs
 node_modules/
-.temp
-.staging
-target
+.temp/
+.staging/
+target/
 logs/
 dist/
 npm-debug*.log
