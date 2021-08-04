@@ -4,6 +4,7 @@ node_modules/
 .staging
 target
 logs/
+dist/
 npm-debug*.log
 package-lock.json
 
