@@ -1,7 +1,19 @@
-node_modules
-npm-debug*.log
+# Nodejs
+node_modules/
 .temp
-public
+.staging
 target
+logs/
+npm-debug*.log
 package-lock.json
-logs
+
+# IDE
+/.vscode
+/.settings
+
+# NPM/Yarn/PNPM Logs
+*.log
+npm-debug*.log*
+yarn-debug*.log*
+yarn-error*.log*
+.pnpm-debug*.log*
