@@ -38,7 +38,7 @@ module.exports = {
         const envFilePath = path.resolve
         (
             UtilityService.getProjectRoot(),
-            this.isProduction() ? '.env' : '.env-dev'
+            this.isProduction() ? '.env.production' : '.env.development'
         )
         if (ENV_VARIABLES !== null) {
             return;
